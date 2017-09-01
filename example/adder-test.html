@@ -10,9 +10,22 @@
 // forEach([1, 2, 3], function(number) {
 //   console.log(number); // prints 1 2 & 3
 // });
+
+// Example 3:
+// The index of the current element being processed in the array.
+// forEach([1, 2, 3], function(number, index) {
+//   console.log(index); // prints 0 1 & 2
+// });
+
+// Example 4:
+// The original array should be accessible in the function.
+// forEach([1, 2, 3], function(number, index, originalArray) {
+//   console.log(originalArray); // prints the original array: [1, 2, 3]
+// });
+
 function forEach(array, callback) {
   for (var i = 0; i < array.length; i +=1) {
-    callback(array[i]);
+    callback(array[i], i, array);
   }
 }
 
@@ -25,8 +38,23 @@ tests({
     eq(counter, 3);
   },
   'It should pass in the ith element as the first argument to the callback.': function() {
-    forEach([1], function(number) {
-      eq(number, 1);
+    var counter = 0;
+    var testArray = [1, 2, 3];
+    forEach(testArray, function(number) {
+      eq(number, testArray[counter]);
+      counter += 1;
+    });
+  },
+  'It should pass in the ith position as the second argument to the callback.': function() {
+    var indexArray = [0, 1, 2, 3];
+    forEach([1, 2, 3, 4], function(number, index) {
+      eq(index, indexArray[index]);
+    });
+  },
+  'It should pass in the original array as the third argument to the callback.': function() {
+    var testArray = [1, 2, 3];
+    forEach(testArray, function(number, index, originalArray) {
+      eq(originalArray, testArray);
     });
   }
 });
